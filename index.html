@@ -24,7 +24,7 @@
       const celular = document.getElementById("celular").value;
 
       const { data, error } = await supabase
-        .from("clientes")
+        .from("clients")
         .insert([{ nombre: nombre, celular: celular }]);
 
       if (error) {
