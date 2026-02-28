@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nuvia CRM</title>
+</head>
+<body>
+
+  <h1>Nuvia CRM</h1>
+
+  <h2>Agregar Cliente</h2>
+  <input type="text" id="nombre" placeholder="Nombre">
+  <input type="text" id="celular" placeholder="Celular">
+  <button onclick="guardarCliente()">Guardar</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <script>
+    const supabaseUrl = "PEGA_AQUI_TU_PROJECT_URL";
+    const supabaseKey = "PEGA_AQUI_TU_ANON_KEY";
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function guardarCliente() {
+      const nombre = document.getElementById("nombre").value;
+      const celular = document.getElementById("celular").value;
+
+      const { data, error } = await supabase
+        .from("clientes")
+        .insert([{ nombre: nombre, celular: celular }]);
+
+      if (error) {
+        alert("Error guardando cliente");
+        console.log(error);
+      } else {
+        alert("Cliente guardado correctamente");
+      }
+    }
+  </script>
+
+</body>
+</html>
