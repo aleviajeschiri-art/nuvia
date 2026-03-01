@@ -24,8 +24,7 @@
 
     const { data, error } = await supabase
       .from("clients")
-      .insert([{ nombre: nombre, celular: celular }]);
-
+      .insert([{ name: nombre, phone: celular }]);
     if (error) {
       alert("Error guardando cliente");
       console.log(error);
