@@ -11,6 +11,8 @@
   <input type="text" id="nombre" placeholder="Nombre">
   <input type="text" id="celular" placeholder="Celular">
   <button onclick="guardarCliente()">Guardar</button>
+  <h2>Lista de Clientes</h2>
+<ul id="listaClientes"></ul>
   <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
@@ -28,8 +30,29 @@
     if (error) {
       alert("Error guardando cliente");
       console.log(error);
-    } else {
-      alert("Cliente guardado correctamente");
-    }
+  } else {
+  alert("Cliente guardado correctamente");
+  cargarClientes();
+}
   };
+    async function cargarClientes() {
+  const { data, error } = await supabase
+    .from("clients")
+    .select("*");
+
+  if (error) {
+    console.log("Error cargando clientes:", error);
+    return;
+  }
+
+  const lista = document.getElementById("listaClientes");
+  lista.innerHTML = "";
+
+  data.forEach(cliente => {
+    const li = document.createElement("li");
+    li.textContent = cliente.name + " - " + cliente.phone;
+    lista.appendChild(li);
+  });
+}
+    cargarClientes();
 </script>
