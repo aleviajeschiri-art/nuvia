@@ -105,21 +105,23 @@
   </select>
 `;
 
-    if (cliente.status === "Nuevo Lead") {
-      document.getElementById("nuevo_lead").appendChild(card);
-    } 
-    else if (cliente.status === "Contactado") {
-      document.getElementById("contactado").appendChild(card);
-    } 
-    else if (cliente.status === "Cotización Enviada") {
-      document.getElementById("cotizacion_enviada").appendChild(card);
-    } 
-    else if (cliente.status === "Confirmado") {
-      document.getElementById("confirmado").appendChild(card);
-    } 
-    else if (cliente.status === "Viajó") {
-      document.getElementById("viajo").appendChild(card);
-    }
+   const estado = cliente.status?.trim().toLowerCase();
+
+if (estado === "nuevo lead") {
+  document.getElementById("nuevo_lead").appendChild(card);
+} 
+else if (estado === "contactado") {
+  document.getElementById("contactado").appendChild(card);
+} 
+else if (estado === "cotización enviada") {
+  document.getElementById("cotizacion_enviada").appendChild(card);
+} 
+else if (estado === "confirmado") {
+  document.getElementById("confirmado").appendChild(card);
+} 
+else if (estado === "viajó") {
+  document.getElementById("viajo").appendChild(card);
+}
   });
 }
     cargarClientes();
