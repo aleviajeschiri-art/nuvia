@@ -91,6 +91,11 @@
     card.style.padding = "8px";
     card.style.margin = "5px";
     card.style.background = "#f9f9f9";
+    card.draggable = true;
+
+card.ondragstart = () => {
+window.dragClientId = cliente.id;
+};
 
    card.innerHTML = `
   <strong>${cliente.name}</strong><br>
@@ -145,6 +150,30 @@ await cargarClientes();
 }catch(err){
 console.log(err);
 alert("Error actualizando estado");
+}
+
+}
+    window.dropCliente = async function(event, estado){
+
+event.preventDefault();
+
+if(!window.dragClientId) return;
+
+try{
+
+const { error } = await supabase
+.from("clients")
+.update({ status: estado })
+.eq("id", window.dragClientId);
+
+if(error) throw error;
+
+window.dragClientId = null;
+
+await cargarClientes();
+
+}catch(err){
+console.log(err);
 }
 
 }
