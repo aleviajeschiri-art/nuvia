@@ -84,72 +84,68 @@ cargarClientes();
 console.log(err);
 }
 
+}async function cargarClientes(){
+
+const { data, error } = await supabase
+.from("clients")
+.select("*");
+
+if(error){
+console.log(error);
+return;
 }
-  async function cargarClientes() {
-  const { data, error } = await supabase
-    .from("clients")
-    .select("*");
-    console.log(data);
 
-  if (error) {
-    console.log("Error cargando clientes:", error);
-    return;
-  }
+// Limpiar columnas
+["nuevo_lead","contactado","cotizacion_enviada","confirmado","viajo"]
+.forEach(id=>{
+document.getElementById(id).innerHTML="";
+});
 
-  // Limpiar columnas
-  document.getElementById("nuevo_lead").innerHTML = "";
-  document.getElementById("contactado").innerHTML = "";
-  document.getElementById("cotizacion_enviada").innerHTML = "";
-  document.getElementById("confirmado").innerHTML = "";
-  document.getElementById("viajo").innerHTML = "";
+(data || []).forEach(cliente=>{
 
-  data.forEach(cliente => {
-    const card = document.createElement("div");
-    card.style.border = "1px solid #ccc";
-    card.style.padding = "8px";
-    card.style.margin = "5px";
-    card.style.background = "#f9f9f9";
-    card.draggable = true;
+const card = document.createElement("div");
 
-card.ondragstart = () => {
-window.dragClientId = cliente.id;
-};
+card.style.border = "1px solid #ccc";
+card.style.padding = "8px";
+card.style.margin = "5px";
+card.style.background = "#f9f9f9";
 
-   card.innerHTML = `
-  <strong>${cliente.name}</strong><br>
-  ${cliente.phone}<br><br>
+card.innerHTML = `
+<strong>${cliente.name || ""}</strong><br>
+${cliente.phone || ""}<br><br>
 
- <select onchange="cambiarEstado(${cliente.id}, this.value)">
-<option value="Nuevo Lead" ${cliente.status === "Nuevo Lead" ? "selected":""}>Nuevo Lead</option>
-<option value="Contactado" ${cliente.status === "Contactado" ? "selected":""}>Contactado</option>
-<option value="Cotización Enviada" ${cliente.status === "Cotización Enviada" ? "selected":""}>Cotización Enviada</option>
-<option value="Confirmado" ${cliente.status === "Confirmado" ? "selected":""}>Confirmado</option>
-<option value="Viajó" ${cliente.status === "Viajó" ? "selected":""}>Viajó</option>
+<select onchange="cambiarEstado(${cliente.id}, this.value)">
+<option value="Nuevo Lead" ${cliente.status==="Nuevo Lead"?"selected":""}>Nuevo Lead</option>
+<option value="Contactado" ${cliente.status==="Contactado"?"selected":""}>Contactado</option>
+<option value="Cotización Enviada" ${cliente.status==="Cotización Enviada"?"selected":""}>Cotización Enviada</option>
+<option value="Confirmado" ${cliente.status==="Confirmado"?"selected":""}>Confirmado</option>
+<option value="Viajó" ${cliente.status==="Viajó"?"selected":""}>Viajó</option>
 </select>
 `;
 
-   const estado = cliente.status
-  ?.normalize("NFD")
-  .replace(/[\u0300-\u036f]/g, "")
-  .trim()
-  .toLowerCase();
+let estado = (cliente.status || "")
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.trim()
+.toLowerCase();
 
-if (estado === "nuevo lead") {
-  document.getElementById("nuevo_lead").appendChild(card);
-} 
-else if (estado === "contactado") {
-  document.getElementById("contactado").appendChild(card);
-} 
-else if (estado === "cotizacion enviada") {   // sin tilde
-  document.getElementById("cotizacion_enviada").appendChild(card);
-} 
-else if (estado === "confirmado") {
-  document.getElementById("confirmado").appendChild(card);
-} 
-else if (estado === "viajo") {   // sin tilde
-  document.getElementById("viajo").appendChild(card);
-}
-  });
+if(estado === "nuevo lead")
+document.getElementById("nuevo_lead").appendChild(card);
+
+else if(estado === "contactado")
+document.getElementById("contactado").appendChild(card);
+
+else if(estado === "cotizacion enviada")
+document.getElementById("cotizacion_enviada").appendChild(card);
+
+else if(estado === "confirmado")
+document.getElementById("confirmado").appendChild(card);
+
+else if(estado === "viajo")
+document.getElementById("viajo").appendChild(card);
+
+});
+
 }
   cargarClientes();
 
