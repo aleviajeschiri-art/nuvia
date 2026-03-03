@@ -11,8 +11,36 @@
   <input type="text" id="nombre" placeholder="Nombre">
   <input type="text" id="celular" placeholder="Celular">
   <button onclick="guardarCliente()">Guardar</button>
-  <h2>Lista de Clientes</h2>
-<ul id="listaClientes"></ul>
+  <h2>Pipeline de Ventas</h2>
+
+<div style="display:flex; gap:20px;">
+
+  <div>
+    <h3>Nuevo Lead</h3>
+    <div id="nuevo_lead"></div>
+  </div>
+
+  <div>
+    <h3>Contactado</h3>
+    <div id="contactado"></div>
+  </div>
+
+  <div>
+    <h3>Cotización Enviada</h3>
+    <div id="cotizacion_enviada"></div>
+  </div>
+
+  <div>
+    <h3>Confirmado</h3>
+    <div id="confirmado"></div>
+  </div>
+
+  <div>
+    <h3>Viajó</h3>
+    <div id="viajo"></div>
+  </div>
+
+</div>
   <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
