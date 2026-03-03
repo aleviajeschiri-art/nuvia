@@ -49,46 +49,7 @@ const supabaseKey = "sb_publishable_c314uHq-qKzKbe9MDEQ_0PqxRBlk";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-/* Guardar cliente */
-window.guardarCliente = async function(){
-
-const nombre = document.getElementById("nombre").value;
-const celular = document.getElementById("celular").value;
-
-const { error } = await supabase.from("clients").insert([{
-name:nombre,
-phone:celular,
-status:"Nuevo Lead"
-}]);
-
-if(error){
-alert("Error guardando cliente");
-return;
-}
-
-cargarClientes();
-
-};
-
-/* Cambiar estado */
-window.cambiarEstado = async function(id,nuevoEstado){
-
-const { error } = await supabase
-.from("clients")
-.update({ status:nuevoEstado })
-.eq("id",id);
-
-if(error){
-console.log(error);
-return;
-}
-
-cargarClientes();
-
-};
-
-/* Cargar clientes */
-async function cargarClientes(){
+window.cargarClientes = async function(){
 
 const { data, error } = await supabase
 .from("clients")
@@ -99,9 +60,7 @@ console.log(error);
 return;
 }
 
-/* Limpiar columnas */
-["nuevo_lead","contactado","cotizacion_enviada","confirmado","viajo"]
-.forEach(id=>{
+["nuevo_lead","contactado","cotizacion_enviada","confirmado","viajo"].forEach(id=>{
 const el = document.getElementById(id);
 if(el) el.innerHTML="";
 });
@@ -128,11 +87,7 @@ ${cliente.phone || ""}<br><br>
 </select>
 `;
 
-let estado=(cliente.status||"")
-.normalize("NFD")
-.replace(/[\\u0300-\u036f]/g,"")
-.trim()
-.toLowerCase();
+let estado=(cliente.status||"").toLowerCase();
 
 if(estado==="nuevo lead")
 document.getElementById("nuevo_lead")?.appendChild(card);
@@ -151,9 +106,37 @@ document.getElementById("viajo")?.appendChild(card);
 
 });
 
-}
+};
 
-window.addEventListener("DOMContentLoaded",cargarClientes);
+window.cambiarEstado = async function(id,nuevoEstado){
+
+await supabase
+.from("clients")
+.update({ status:nuevoEstado })
+.eq("id",id);
+
+cargarClientes();
+
+};
+
+window.guardarCliente = async function(){
+
+const nombre=document.getElementById("nombre").value;
+const celular=document.getElementById("celular").value;
+
+await supabase.from("clients").insert([{
+name:nombre,
+phone:celular,
+status:"Nuevo Lead"
+}]);
+
+cargarClientes();
+
+};
+
+window.addEventListener("DOMContentLoaded",()=>{
+cargarClientes();
+});
 
 </script>
 </body>
