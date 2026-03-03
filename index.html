@@ -152,33 +152,7 @@ else if (estado === "viajo") {   // sin tilde
   });
 }
     cargarClientes();
- 
-
-}
-    window.dropCliente = async function(event, estado){
-
-event.preventDefault();
-
-if(!window.dragClientId) return;
-
-try{
-
-const { error } = await supabase
-.from("clients")
-.update({ status: estado })
-.eq("id", window.dragClientId);
-
-if(error) throw error;
-
-window.dragClientId = null;
-
-await cargarClientes();
-
-}catch(err){
-console.log(err);
-}
-
-}
+    
 </script>
 </body>
 </html>
