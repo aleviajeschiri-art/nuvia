@@ -101,13 +101,13 @@ window.dragClientId = cliente.id;
   <strong>${cliente.name}</strong><br>
   ${cliente.phone}<br><br>
 
-  <select onchange="cambiarEstado(${cliente.id}, this.value)">
-    <option value="Nuevo Lead" ${cliente.status === "Nuevo Lead" ? "selected" : ""}>Nuevo Lead</option>
-    <option value="Contactado" ${cliente.status === "Contactado" ? "selected" : ""}>Contactado</option>
-    <option value="Cotización Enviada" ${cliente.status === "Cotización Enviada" ? "selected" : ""}>Cotización Enviada</option>
-    <option value="Confirmado" ${cliente.status === "Confirmado" ? "selected" : ""}>Confirmado</option>
-    <option value="Viajó" ${cliente.status === "Viajó" ? "selected" : ""}>Viajó</option>
-  </select>
+ <select onchange="cambiarEstado(${cliente.id}, this.value)">
+<option value="Nuevo Lead" ${cliente.status === "Nuevo Lead" ? "selected":""}>Nuevo Lead</option>
+<option value="Contactado" ${cliente.status === "Contactado" ? "selected":""}>Contactado</option>
+<option value="Cotización Enviada" ${cliente.status === "Cotización Enviada" ? "selected":""}>Cotización Enviada</option>
+<option value="Confirmado" ${cliente.status === "Confirmado" ? "selected":""}>Confirmado</option>
+<option value="Viajó" ${cliente.status === "Viajó" ? "selected":""}>Viajó</option>
+</select>
 `;
 
    const estado = cliente.status
