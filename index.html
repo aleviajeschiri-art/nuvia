@@ -41,7 +41,7 @@
   </div>
 
 </div>
- <script type="module">
+<script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const supabaseUrl = "https://npfagyunubcrgioasddw.supabase.co";
@@ -50,34 +50,33 @@ const supabaseKey = "sb_publishable_c314uHq-qKzKbe9MDEQ_0PqxRBlk";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 /* Guardar cliente */
-window.guardarCliente = async function () {
+window.guardarCliente = async function(){
 
 const nombre = document.getElementById("nombre").value;
 const celular = document.getElementById("celular").value;
 
 const { error } = await supabase.from("clients").insert([{
-name: nombre,
-phone: celular,
-status: "Nuevo Lead"
+name:nombre,
+phone:celular,
+status:"Nuevo Lead"
 }]);
 
 if(error){
 alert("Error guardando cliente");
-console.log(error);
 return;
 }
 
-alert("Cliente guardado correctamente");
 cargarClientes();
+
 };
 
 /* Cambiar estado */
-window.cambiarEstado = async function(id, nuevoEstado){
+window.cambiarEstado = async function(id,nuevoEstado){
 
 const { error } = await supabase
 .from("clients")
-.update({ status: nuevoEstado })
-.eq("id", id);
+.update({ status:nuevoEstado })
+.eq("id",id);
 
 if(error){
 console.log(error);
@@ -85,6 +84,7 @@ return;
 }
 
 cargarClientes();
+
 };
 
 /* Cargar clientes */
@@ -102,19 +102,20 @@ return;
 /* Limpiar columnas */
 ["nuevo_lead","contactado","cotizacion_enviada","confirmado","viajo"]
 .forEach(id=>{
-document.getElementById(id).innerHTML="";
+const el = document.getElementById(id);
+if(el) el.innerHTML="";
 });
 
 (data || []).forEach(cliente=>{
 
 const card = document.createElement("div");
 
-card.style.border = "1px solid #ccc";
-card.style.padding = "8px";
-card.style.margin = "5px";
-card.style.background = "#f9f9f9";
+card.style.border="1px solid #ccc";
+card.style.padding="8px";
+card.style.margin="5px";
+card.style.background="#f9f9f9";
 
-card.innerHTML = `
+card.innerHTML=`
 <strong>${cliente.name || ""}</strong><br>
 ${cliente.phone || ""}<br><br>
 
@@ -127,26 +128,26 @@ ${cliente.phone || ""}<br><br>
 </select>
 `;
 
-let estado = (cliente.status || "")
+let estado=(cliente.status||"")
 .normalize("NFD")
-.replace(/[\\u0300-\\u036f]/g,"")
+.replace(/[\\u0300-\u036f]/g,"")
 .trim()
 .toLowerCase();
 
-if(estado === "nuevo lead")
-document.getElementById("nuevo_lead").appendChild(card);
+if(estado==="nuevo lead")
+document.getElementById("nuevo_lead")?.appendChild(card);
 
-else if(estado === "contactado")
-document.getElementById("contactado").appendChild(card);
+else if(estado==="contactado")
+document.getElementById("contactado")?.appendChild(card);
 
-else if(estado === "cotizacion enviada")
-document.getElementById("cotizacion_enviada").appendChild(card);
+else if(estado==="cotizacion enviada")
+document.getElementById("cotizacion_enviada")?.appendChild(card);
 
-else if(estado === "confirmado")
-document.getElementById("confirmado").appendChild(card);
+else if(estado==="confirmado")
+document.getElementById("confirmado")?.appendChild(card);
 
-else if(estado === "viajo")
-document.getElementById("viajo").appendChild(card);
+else if(estado==="viajo")
+document.getElementById("viajo")?.appendChild(card);
 
 });
 
