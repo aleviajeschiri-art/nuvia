@@ -105,7 +105,11 @@
   </select>
 `;
 
-   const estado = cliente.status?.trim().toLowerCase();
+   const estado = cliente.status
+  ?.normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .trim()
+  .toLowerCase();
 
 if (estado === "nuevo lead") {
   document.getElementById("nuevo_lead").appendChild(card);
@@ -113,13 +117,13 @@ if (estado === "nuevo lead") {
 else if (estado === "contactado") {
   document.getElementById("contactado").appendChild(card);
 } 
-else if (estado === "cotización enviada") {
+else if (estado === "cotizacion enviada") {   // sin tilde
   document.getElementById("cotizacion_enviada").appendChild(card);
 } 
 else if (estado === "confirmado") {
   document.getElementById("confirmado").appendChild(card);
 } 
-else if (estado === "viajó") {
+else if (estado === "viajo") {   // sin tilde
   document.getElementById("viajo").appendChild(card);
 }
   });
