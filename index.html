@@ -67,12 +67,25 @@
   cargarClientes();
 }
   };
- window.cambiarEstado =
-catch(err){
+    window.cambiarEstado = async function(id, nuevoEstado){
+
+try{
+
+const { error } = await supabase
+.from("clients")
+.update({ status: nuevoEstado })
+.eq("id", id);
+
+if(error) throw error;
+
+await cargarClientes();
+
+}catch(err){
 console.log(err);
 }
 
-}async function cargarClientes(){
+}
+async function cargarClientes() {
 
 const { data, error } = await supabase
 .from("clients")
