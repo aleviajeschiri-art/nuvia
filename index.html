@@ -92,10 +92,18 @@
     card.style.margin = "5px";
     card.style.background = "#f9f9f9";
 
-    card.innerHTML = `
-      <strong>${cliente.name}</strong><br>
-      ${cliente.phone}
-    `;
+   card.innerHTML = `
+  <strong>${cliente.name}</strong><br>
+  ${cliente.phone}<br><br>
+
+  <select onchange="cambiarEstado(${cliente.id}, this.value)">
+    <option value="Nuevo Lead" ${cliente.status === "Nuevo Lead" ? "selected" : ""}>Nuevo Lead</option>
+    <option value="Contactado" ${cliente.status === "Contactado" ? "selected" : ""}>Contactado</option>
+    <option value="Cotización Enviada" ${cliente.status === "Cotización Enviada" ? "selected" : ""}>Cotización Enviada</option>
+    <option value="Confirmado" ${cliente.status === "Confirmado" ? "selected" : ""}>Confirmado</option>
+    <option value="Viajó" ${cliente.status === "Viajó" ? "selected" : ""}>Viajó</option>
+  </select>
+`;
 
     if (cliente.status === "Nuevo Lead") {
       document.getElementById("nuevo_lead").appendChild(card);
