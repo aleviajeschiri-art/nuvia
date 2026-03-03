@@ -129,19 +129,25 @@ else if (estado === "viajo") {   // sin tilde
   });
 }
     cargarClientes();
-    window.cambiarEstado = async function (id, nuevoEstado) {
-  const { error } = await supabase
-    .from("clients")
-    .update({ status: nuevoEstado })
-    .eq("id", id);
+   window.cambiarEstado = async function(id, nuevoEstado){
 
-  if (error) {
-    console.log("Error actualizando estado:", error);
-    alert("Error actualizando estado");
-  } else {
-    cargarClientes(); // Recargar columnas
-  }
-};
+try{
+
+const { error } = await supabase
+.from("clients")
+.update({ status: nuevoEstado })
+.eq("id", id);
+
+if(error) throw error;
+
+await cargarClientes();
+
+}catch(err){
+console.log(err);
+alert("Error actualizando estado");
+}
+
+}
 </script>
 </body>
 </html>
