@@ -63,7 +63,7 @@
   cargarClientes();
 }
   };
-    async function cargarClientes() {
+  async function cargarClientes() {
   const { data, error } = await supabase
     .from("clients")
     .select("*");
@@ -73,14 +73,42 @@
     return;
   }
 
-  const lista = document.getElementById("listaClientes");
-  lista.innerHTML = "";
+  // Limpiar columnas
+  document.getElementById("nuevo_lead").innerHTML = "";
+  document.getElementById("contactado").innerHTML = "";
+  document.getElementById("cotizacion_enviada").innerHTML = "";
+  document.getElementById("confirmado").innerHTML = "";
+  document.getElementById("viajo").innerHTML = "";
 
   data.forEach(cliente => {
-    const li = document.createElement("li");
-    li.textContent = cliente.name + " - " + cliente.phone;
-    lista.appendChild(li);
+    const card = document.createElement("div");
+    card.style.border = "1px solid #ccc";
+    card.style.padding = "8px";
+    card.style.margin = "5px";
+    card.style.background = "#f9f9f9";
+
+    card.innerHTML = `
+      <strong>${cliente.name}</strong><br>
+      ${cliente.phone}
+    `;
+
+    if (cliente.status === "Nuevo Lead") {
+      document.getElementById("nuevo_lead").appendChild(card);
+    } 
+    else if (cliente.status === "Contactado") {
+      document.getElementById("contactado").appendChild(card);
+    } 
+    else if (cliente.status === "Cotización Enviada") {
+      document.getElementById("cotizacion_enviada").appendChild(card);
+    } 
+    else if (cliente.status === "Confirmado") {
+      document.getElementById("confirmado").appendChild(card);
+    } 
+    else if (cliente.status === "Viajó") {
+      document.getElementById("viajo").appendChild(card);
+    }
   });
+}
 }
     cargarClientes();
 </script>
