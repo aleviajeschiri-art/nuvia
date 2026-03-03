@@ -54,7 +54,11 @@
 
     const { data, error } = await supabase
       .from("clients")
-      .insert([{ name: nombre, phone: celular }]);
+     .insert([{ 
+  name: nombre, 
+  phone: celular,
+  status: "Nuevo Lead"
+}]);
     if (error) {
       alert("Error guardando cliente");
       console.log(error);
