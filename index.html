@@ -41,51 +41,54 @@
   </div>
 
 </div>
-  <script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+ <script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  const supabaseUrl = "https://npfagyunubcrgioasddw.supabase.co";
-  const supabaseKey = "sb_publishable_c314uHq-qKzKbe9Gm3MDEQ_0PqxRBlk";
-  const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = "https://npfagyunubcrgioasddw.supabase.co";
+const supabaseKey = "sb_publishable_c314uHq-qKzKbe9MDEQ_0PqxRBlk";
 
-  window.guardarCliente = async function () {
-    const nombre = document.getElementById("nombre").value;
-    const celular = document.getElementById("celular").value;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { data, error } = await supabase
-      .from("clients")
-     .insert([{ 
-  name: nombre, 
-  phone: celular,
-  status: "Nuevo Lead"
+/* Guardar cliente */
+window.guardarCliente = async function () {
+
+const nombre = document.getElementById("nombre").value;
+const celular = document.getElementById("celular").value;
+
+const { error } = await supabase.from("clients").insert([{
+name: nombre,
+phone: celular,
+status: "Nuevo Lead"
 }]);
-    if (error) {
-      alert("Error guardando cliente");
-      console.log(error);
-  } else {
-  alert("Cliente guardado correctamente");
-  cargarClientes();
-}
-  };
-    window.cambiarEstado = async function(id, nuevoEstado){
 
-try{
+if(error){
+alert("Error guardando cliente");
+console.log(error);
+return;
+}
+
+alert("Cliente guardado correctamente");
+cargarClientes();
+};
+
+/* Cambiar estado */
+window.cambiarEstado = async function(id, nuevoEstado){
 
 const { error } = await supabase
 .from("clients")
 .update({ status: nuevoEstado })
 .eq("id", id);
 
-if(error) throw error;
-
-await cargarClientes();
-
-}catch(err){
-console.log(err);
+if(error){
+console.log(error);
+return;
 }
 
-}
-async function cargarClientes() {
+cargarClientes();
+};
+
+/* Cargar clientes */
+async function cargarClientes(){
 
 const { data, error } = await supabase
 .from("clients")
@@ -96,7 +99,7 @@ console.log(error);
 return;
 }
 
-// Limpiar columnas
+/* Limpiar columnas */
 ["nuevo_lead","contactado","cotizacion_enviada","confirmado","viajo"]
 .forEach(id=>{
 document.getElementById(id).innerHTML="";
@@ -126,7 +129,7 @@ ${cliente.phone || ""}<br><br>
 
 let estado = (cliente.status || "")
 .normalize("NFD")
-.replace(/[\u0300-\u036f]/g,"")
+.replace(/[\\u0300-\\u036f]/g,"")
 .trim()
 .toLowerCase();
 
@@ -148,7 +151,8 @@ document.getElementById("viajo").appendChild(card);
 });
 
 }
-  cargarClientes();
+
+window.addEventListener("DOMContentLoaded",cargarClientes);
 
 </script>
 </body>
