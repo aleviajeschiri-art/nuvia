@@ -129,4 +129,17 @@ else if (estado === "viajo") {   // sin tilde
   });
 }
     cargarClientes();
+    window.cambiarEstado = async function (id, nuevoEstado) {
+  const { error } = await supabase
+    .from("clients")
+    .update({ status: nuevoEstado })
+    .eq("id", id);
+
+  if (error) {
+    console.log("Error actualizando estado:", error);
+    alert("Error actualizando estado");
+  } else {
+    cargarClientes(); // Recargar columnas
+  }
+};
 </script>
